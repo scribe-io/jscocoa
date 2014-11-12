@@ -729,8 +729,8 @@ static id JSCocoaSingleton = NULL;
 	if (exception)				
 	{
 //		return	NSLog(@"%@", [self formatJSException:exception]), NO;
-        [self callDelegateForException:exception];
-		return	NO;
+    [self callDelegateForException:exception];
+		return	NULL;
 	}
 	
 	return	JSValueToObject(ctx, jsFunctionValue, NULL);	
@@ -1343,7 +1343,7 @@ static id JSCocoaSingleton = NULL;
 	for (i=0; i<numChildren; i++)
 	{
 		id child = [rootElement childAtIndex:i];
-		if ([child kind] != NSXMLElementKind)	continue;
+		if ([(NSXMLNode*)child kind] != NSXMLElementKind)	continue;
 		
 		BOOL	isReturnValue = [[child name] isEqualToString:@"retval"];
 		if ([[child name] isEqualToString:@"arg"] || isReturnValue)
@@ -3720,9 +3720,9 @@ call:
 				ffi_cif		cif;
 				ffi_type*	args[2];
 				void*		values[2];
-				char*		selector;
+				SEL 		selector;
 	
-				selector	= (char*)NSSelectorFromString(propertyName);
+				selector	= NSSelectorFromString(propertyName);
 				args[0]		= &ffi_type_pointer;
 				args[1]		= &ffi_type_pointer;
 				values[0]	= (void*)&callee;
@@ -4149,9 +4149,9 @@ static bool jsCocoaObject_setProperty(JSContextRef ctx, JSObjectRef object, JSSt
 			ffi_cif		cif;
 			ffi_type*	args[3];
 			void*		values[3];
-			char*		selector;
+			SEL 		selector;
 
-			selector	= (char*)NSSelectorFromString(setterName);
+			selector	= NSSelectorFromString(setterName);
 			args[0]		= &ffi_type_pointer;
 			args[1]		= &ffi_type_pointer;
 			values[0]	= (void*)&callee;
@@ -4560,7 +4560,7 @@ static JSValueRef jsCocoaObject_callAsFunction_ffi(JSContextRef ctx, JSObjectRef
 	ffi_cif		cif;
 	ffi_type**	args	= NULL;
 	void**		values	= NULL;
-	char*		selector;
+	SEL   		selector;
 	// super call
 	struct		objc_super _super;
 	void*		superPointer;
@@ -4576,7 +4576,7 @@ static JSValueRef jsCocoaObject_callAsFunction_ffi(JSContextRef ctx, JSObjectRef
 		size_t		i, idx = 0;
 		if (callingObjC)
 		{
-			selector	= (char*)NSSelectorFromString(methodName);
+			selector	= NSSelectorFromString(methodName);
 			args[0]		= &ffi_type_pointer;
 			args[1]		= &ffi_type_pointer;
 			values[0]	= (void*)&callee;
