@@ -241,7 +241,7 @@ const JSClassDefinition kJSClassDefinitionEmpty = { 0, 0,
 	else
 	{
 		ctx = _ctx;
-		//JSGlobalContextRetain(ctx);
+		JSGlobalContextRetain(ctx);
 		JSObjectRef o = JSObjectMake(ctx, OSXObjectClass, NULL);
 		// Set a global var named 'OSX' which will fulfill the usual role of JSCocoa's global object
 		JSStringRef	jsName = JSStringCreateWithUTF8CString("OSX");
